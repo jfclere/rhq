@@ -108,7 +108,13 @@ public class WebappContextDiscoveryComponent implements ResourceDiscoveryCompone
         for (String engineObjectName : engineObjectNames) {
             EmsBean engineBean = this.loadBean(context.getParentResourceComponent(), engineObjectName);
             if (engineBean != null) {
-                return engineBean.getAttribute(JVM_ROUTE_PROPERTY).refresh().toString();
+                String jvmRoute = null;
+                try {
+                   jvmRoute = engineBean.getAttribute(JVM_ROUTE_PROPERTY).refresh().toString();
+                } catch (Exception e) {
+                   // The configuration is "broken" not JVMRoute in the engine..
+                }
+                return jvmRoute;
             }
         }
 

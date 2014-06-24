@@ -28,6 +28,7 @@ import org.rhq.core.domain.configuration.ConfigurationUpdateStatus;
 import org.rhq.core.domain.configuration.PropertySimple;
 import org.rhq.core.domain.configuration.definition.ConfigurationDefinition;
 import org.rhq.core.domain.configuration.definition.PropertyDefinitionSimple;
+import org.rhq.core.domain.measurement.AvailabilityType;
 import org.rhq.core.pluginapi.configuration.ConfigurationUpdateReport;
 import org.rhq.core.util.exception.ThrowableUtil;
 import org.rhq.plugins.jmx.JMXComponent;
@@ -40,6 +41,12 @@ public class CatalinaServiceComponent extends MBeanResourceComponent<JMXComponen
     private static final Log log = LogFactory.getLog(CatalinaServiceComponent.class);
 
     private final static String MOD_CLUSTER_CONFIG_FILE = "modclusterConfigFile";
+
+    @Override
+    public AvailabilityType getAvailability() {
+        return AvailabilityType.UP;
+    }
+
 
     @Override
     public void updateResourceConfiguration(ConfigurationUpdateReport report) {

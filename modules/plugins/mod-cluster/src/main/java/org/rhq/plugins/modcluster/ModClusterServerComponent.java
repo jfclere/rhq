@@ -22,6 +22,9 @@ import java.util.Set;
 
 import org.mc4j.ems.connection.bean.EmsBean;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import org.rhq.core.domain.measurement.AvailabilityType;
 import org.rhq.core.domain.measurement.MeasurementDataTrait;
 import org.rhq.core.domain.measurement.MeasurementReport;
@@ -37,16 +40,25 @@ import org.rhq.plugins.modcluster.model.ProxyInfo;
 @SuppressWarnings({ "rawtypes" })
 public class ModClusterServerComponent extends MBeanResourceComponent {
 
+    private final Log log = LogFactory.getLog(this.getClass());
+
     @Override
     public AvailabilityType getAvailability() {
-        String rawProxyInfo = JBossHelper.getRawProxyInfo(getEmsBean());
-
-        if (rawProxyInfo == null) {
-            return AvailabilityType.DOWN;
+        /* The Tomcat listener doesn't have a "ProxyInfo" */
+        String proxyList = null;
+        try {
+            proxyList = getEmsBean().getAttribute("proxyList").refresh().toString();
+        } catch (Exception e) {
+        }
+        if (proxyList != null) {
+            log.debug("getAvailability: (Tomcat) " + super.getAvailability());
+            return super.getAvailability();
         }
 
-        ProxyInfo proxyInfo = new ProxyInfo(rawProxyInfo);
-        if (proxyInfo.getAvailableNodes().size() == 0) {
+        String rawProxyInfo = JBossHelper.getRawProxyInfo(getEmsBean());
+        log.debug("getAvailability: (WildFly) proxyInfo: " + rawProxyInfo);
+
+        if (rawProxyInfo == null) {
             return AvailabilityType.DOWN;
         }
 

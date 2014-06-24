@@ -20,7 +20,7 @@
          <c:simple-property name="objectName" readOnly="true" default="Catalina:type=ModClusterListener,*|jboss.web:service=ModCluster" />
          <c:simple-property name="engineObjectName" readOnly="true" default="jboss.web:type=Engine|Catalina:type=Engine" />
          <c:simple-property name="nameTemplate" default="mod_cluster" />
-         <c:simple-property name="modclusterConfigFile"/>
+         <c:simple-property name="modclusterConfigFile" required="false"/>
       </plugin-configuration>
 
       <operation name="reset" displayName="Reset the node" description="Move this application server out of an error state." />
@@ -376,14 +376,14 @@
 
          <operation name="addProxy" displayName="Add a proxy" description="Add a proxy.">
             <parameters>
-               <c:simple-property required="true" name="host" type="string" displayName="Proxy address" />
-               <c:simple-property required="true" name="port" type="string" displayName="Proxy port" />
+               <c:simple-property required="true" name="param0" type="string" displayName="Proxy address" />
+               <c:simple-property required="true" name="param1" type="string" displayName="Proxy port" />
             </parameters>
          </operation>
          <operation name="removeProxy" displayName="Remove a proxy" description="Remove a proxy.">
             <parameters>
-               <c:simple-property required="true" name="host" type="string" displayName="Proxy address" />
-               <c:simple-property required="true" name="port" type="string" displayName="Proxy port" />
+               <c:simple-property required="true" name="param0" type="string" displayName="Proxy address" />
+               <c:simple-property required="true" name="param1" type="string" displayName="Proxy port" />
             </parameters>
          </operation>
          <operation name="disable" displayName="Disable all webpapps" description="Disable all webapps for all virtual hosts of this application server.">
@@ -392,24 +392,6 @@
             </results>
          </operation>
          <operation name="enable" displayName="Enable all webapps" description="Enable all webapps for all virtual hosts of this application server.">
-            <results>
-               <c:simple-property name="operationResult" type="boolean" description="The result of the operation" />
-            </results>
-         </operation>
-         <operation name="stop" displayName="Stop all webapps" description="Gracefully stops all webapps for all virtual hosts of this application server.">
-            <parameters>
-               <c:simple-property required="true" name="timeout" type="string" displayName="Session draining timeout" />
-               <c:simple-property required="true" name="unit" default="MILLISECONDS" displayName="Time unit of the timeout parameter">
-                  <c:property-options allowCustomValue="false">
-                     <c:option value="MICROSECONDS" name="MICROSECONDS" />
-                     <c:option value="MILLISECONDS" name="MILLISECONDS" />
-                     <c:option value="NANOSECONDS" name="NANOSECONDS" />
-                     <c:option value="SECONDS" name="SECONDS" />
-                     <c:option value="HOURS" name="HOURS" />
-                     <c:option value="DAYS" name="DAYS" />
-                  </c:property-options>
-               </c:simple-property>
-            </parameters>
             <results>
                <c:simple-property name="operationResult" type="boolean" description="The result of the operation" />
             </results>
@@ -433,7 +415,7 @@
             <c:simple-property name="flushPackets" type="boolean" description="Allows controlling flusing of packets." />
             <c:simple-property name="socketTimeout" type="integer" description="Connection timeout for communication with the proxy." />
             <c:simple-property name="advertisePort" type="integer" required="false" description="Multicast port for discovery" />
-            <c:simple-property name="advertiseGroupAddress" type="string" required="false" description="Multicast address for discovery." />
+            <c:simple-property name="advertiseSocketAddress" type="string" required="false" description="Multicast address for discovery." />
             <c:simple-property name="flushWait" type="integer" description="Time in ms to wait before flushing packets." />
             <c:simple-property name="ping" type="integer" description="Time in s to wait for a pong answer to a ping." />
          </resource-configuration>

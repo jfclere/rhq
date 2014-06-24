@@ -21,6 +21,9 @@ package org.rhq.plugins.modcluster;
 
 import java.util.Set;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import org.rhq.core.domain.configuration.PropertySimple;
 import org.rhq.core.pluginapi.inventory.DiscoveredResourceDetails;
 import org.rhq.core.pluginapi.inventory.ResourceComponent;
@@ -40,8 +43,11 @@ public class ModClusterDiscoveryComponent extends MBeanResourceDiscoveryComponen
     private static final String JBOSS_AS4_CONFIGURATION_FILE_RELATIVE_PATH = "/deploy/jboss-web.deployer/server.xml";
     private static final String JBOSS_AS5_CONFIGURATION_FILE_RELATIVE_PATH = "/deploy/mod_cluster.sar/META-INF/mod_cluster-jboss-beans.xml";
 
+    private final Log log = LogFactory.getLog(this.getClass());
+
     @Override
     public Set<DiscoveredResourceDetails> discoverResources(ResourceDiscoveryContext context) {
+        log.debug("ModClusterDiscoveryComponent discoverResources");
         Set<DiscoveredResourceDetails> tempSet = super.discoverResources(context);
 
         for (DiscoveredResourceDetails detail : tempSet) {
